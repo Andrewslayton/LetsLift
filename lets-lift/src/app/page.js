@@ -1,24 +1,26 @@
 // pages/index.js
-
-import Head from 'next/head'
+'use client'
+import { Metadata } from 'next'
 import styles from '../styles/Home.module.css'
 import Link from 'next/link'
+import GoogleButton from 'react-google-button'
+import { signIn } from 'next-auth/react'
 
 export default function Home() {
   return (
     <div className={styles.container}>
-      <Head>
         <title>Lets Lift App</title>
         <meta name="description" content="A Lets Lift application" />
         <link rel="icon" href="/favicon.ico" />
-      </Head>
-
+      <GoogleButton onClick={() => signIn('google')} className='text-blue-600 ml-auto'> 
        <main>
+        
         <h1 className={styles.title}>Lets Lift!</h1>
-        <Link href="/login.js">
+        <Link href="/login">
           <button className={styles.button}>Lets get pumpin'</button>
         </Link>
       </main>
+      </GoogleButton>
     </div>
   )
 }
