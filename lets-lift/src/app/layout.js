@@ -1,6 +1,6 @@
 import './globals.css'
-import Providers from './components/providers';
-import SignInTemp from "./components/signInn";
+import Providers from '../components/providers';
+import SignInButton from "../components/SignInButton";
 
 export const metadata = {
   title: 'Create Next App',
@@ -12,7 +12,7 @@ export default function RootLayout({ Component, pageProps, Session ,children }) 
     <html lang="en">
       <body>
       <Providers>
-        <SignInTemp/>
+        <SignInButton/>
         {children}
       </Providers>
       </body>
