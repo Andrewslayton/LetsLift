@@ -40,3 +40,23 @@ export async function getWorkoutById(lift_id) {
     console.error(error);
   }
 }
+
+export async function addLocationWorkout(user_id, location) {
+  const input = {
+    // PutItemInput
+    TableName: process.env.AWS_WORKOUT_TABLENAME,
+    Item: {
+      user_id: {
+        S: user_id,
+      },
+      location : {
+        S: location,
+      },
+      timestamp : {
+        S: Date.now().toString(),
+      },
+    },
+  };
+  const command = new PutItemCommand(input);
+  const response = await client.send(command);
+}
