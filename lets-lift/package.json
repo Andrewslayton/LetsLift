@@ -11,6 +11,7 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.436.0",
     "@aws-sdk/credential-providers": "^3.436.0",
+    "@react-google-maps/api": "^2.19.2",
     "autoprefixer": "10.4.15",
     "next": "^13.5.4",
     "next-auth": "^4.23.2",
