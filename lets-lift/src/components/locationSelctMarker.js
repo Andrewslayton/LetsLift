@@ -5,7 +5,6 @@ import usePlacesAutoComplete, {
   getGeocode,
   getLatLng,
 } from "use-places-autocomplete";
-import "@reach/combobox/styles.css";
 import { useRouter } from "next/navigation";
 
 export default function Map() {
