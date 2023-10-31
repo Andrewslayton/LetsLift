@@ -12,15 +12,14 @@ export async function POST(req) {
   }
   const data = await req.json();
     console.log(data);
-//   const workouts = Array.from(formData.keys()).filter(
-//     (key) => !key.startsWith("$")
-//   );
-//   console.log(workouts);
-//   try {
-//     await createNewWorkout(session.user.id, workouts);
-//   } catch (error) {
-//     console.error(error);
-//   }
+    console.log(data.lifts);
+    console.log(data.location);
+    console.log(JSON.stringify(session.user));
+    try {
+      await createNewWorkout(session.user.id, data.lifts, data.location);
+    } catch (error) {
+      console.error(error);
+    }
 //   // Redirect to the desired path after submitting the form
 //   redirect("/locationSelection");
   return NextResponse.json({ message: "Workout created." });
