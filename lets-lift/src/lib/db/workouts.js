@@ -1,7 +1,7 @@
 import { PutItemCommand, GetItemCommand } from "@aws-sdk/client-dynamodb";
 import { client } from "./client.js";
 
-export async function createNewWorkout(user_id, workouts) {
+export async function createNewWorkout(user_id, workouts, location) {
   const input = {
     // PutItemInput
     TableName: process.env.AWS_WORKOUT_TABLENAME,
@@ -13,6 +13,12 @@ export async function createNewWorkout(user_id, workouts) {
         L: workouts.map((workout) => ({
           S: workout,
         })),
+      },
+      lat : {
+        S: location.lat.toString(),
+      },
+      lng : {
+        S: location.lng.toString(),
       },
       timestamp: {
         S: Date.now().toString(),
@@ -41,22 +47,3 @@ export async function getWorkoutById(lift_id) {
   }
 }
 
-export async function addLocationWorkout(user_id, location) {
-  const input = {
-    // PutItemInput
-    TableName: process.env.AWS_WORKOUT_TABLENAME,
-    Item: {
-      user_id: {
-        S: user_id,
-      },
-      location : {
-        S: location,
-      },
-      timestamp : {
-        S: Date.now().toString(),
-      },
-    },
-  };
-  const command = new PutItemCommand(input);
-  const response = await client.send(command);
-}

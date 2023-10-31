@@ -1,7 +1,7 @@
 "use client";
 import React from "react"; // Import React and useState
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api"
-import Map from "@/components/locationSelctMarker";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import Map from "@/components/locationSelection";
 
 export default function Page() {
   const { isLoaded } = useLoadScript({

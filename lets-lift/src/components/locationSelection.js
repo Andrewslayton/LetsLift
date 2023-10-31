@@ -7,20 +7,21 @@ import usePlacesAutoComplete, {
 } from "use-places-autocomplete";
 import { useRouter } from "next/navigation";
 
-export default function Map() {
+//exposing setSelted to parent
+export default function Map({selectLoc}) {
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+    libraries: ["places"],
+  });
   const center = useMemo(() => ({ lat: 42, lng: -90 }), []);
   const [selected, setSelected] = useState(null);
   const router = useRouter();
-  const selectLoc = (loc) => {
-    console.log(loc);
-    router.push("/findLifters");
-  };
+  if (!isLoaded) return <div>Loading...</div>;
   return (
     <>
       <div className="places-container">
         <PlacesAutoComplete setSelected={setSelected} />
       </div>
-
       <GoogleMap zoom={5} center={center} mapContainerClassName="map-container">
         {selected && (
           <Marker position={selected} onClick={() => selectLoc(selected)} />
@@ -41,7 +42,6 @@ const PlacesAutoComplete = ({ setSelected }) => {
   const handleSelect = async (address) => {
     setValue(address, false);
     clearSuggestions();
-
     const results = await getGeocode({ address });
     const { lat, lng } = await getLatLng(results[0]);
     setSelected({ lat, lng });
