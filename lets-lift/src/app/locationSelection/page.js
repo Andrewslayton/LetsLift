@@ -1,12 +1,6 @@
 "use client";
 import React from "react"; // Import React and useState
-import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import usePlacesAutoComplete, {
-  getGeocode,
-  getLatLng,
-} from "use-places-autocomplete";
-import "@reach/combobox/styles.css";
-import { useRouter } from "next/navigation";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api"
 import Map from "@/components/locationSelctMarker";
 
 export default function Page() {
