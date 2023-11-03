@@ -30,16 +30,20 @@ export default function Page() {
         location: selectedLocation,
       }),
     });
-    router.push("/findLifters");
+    const params = new URLSearchParams({
+      lifts: encodeURIComponent(JSON.stringify(selectedLifts)),
+      location: `${selectedLocation.lat.toString()},${selectedLocation.lng.toString()}`,
+    });
+    router.push("/findLifters?" + params.toString());
   }
 
   return (
     <div className={styles.container}>
       {/* as people select lifts its calling create function to change the state of the selected lifts */}
-      <LiftSelection setSelected={setSelectedLifts} />
       <Map selectLoc={setSelectedLocation} />
+      <LiftSelection setSelected={setSelectedLifts} />
       <button
-        className="bg-blue-300 enabled:hover:bg-blue-400 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
+        className="bg-blue-300 enabled:hover:bg-blue-400 text-white font-bold py-2 px-4 rounded disabled:opacity-50 margin-top: 1px "
         onClick={() => create()}
         disabled={!selectedLifts || !selectedLocation}
       >

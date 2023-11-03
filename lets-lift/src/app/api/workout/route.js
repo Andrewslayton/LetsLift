@@ -13,9 +13,6 @@ export async function POST(req) {
   const data = await req.json();
     try {
       await createNewWorkout(session.user.id, data.lifts, data.location);
-      // await getWorkoutsByLocation(data.location);
-      await getWorkoutsByLoc(data.location, data.lifts, session.user.id);
-      //send list of users to frontend to display on next page 
       //how would i do this in findLifters/page.js
 
     } catch (error) {
@@ -25,3 +22,29 @@ export async function POST(req) {
 //   redirect("/locationSelection");
   return NextResponse.json({ message: "Workout created." });
 }
+export async function GET(req) {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user) {
+    return NextResponse.error();
+  }
+    try {
+      const searchParams = new URLSearchParams(req.nextUrl.searchParams);
+      if (
+        !searchParams ||
+        !searchParams.has("lifts") ||
+        !searchParams.has("location")
+      ) {
+        return NextResponse.error();
+      }
+      const workouts = await getWorkoutsByLoc(
+        searchParams.get("location"),
+        JSON.parse(decodeURIComponent(searchParams.get("lifts"))),
+        session.user.id
+      );
+      return NextResponse.json({workouts});
+    } catch (error) {
+      console.error(error);
+    }
+    
+  }
+

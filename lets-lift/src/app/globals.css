@@ -26,14 +26,20 @@ body {
     rgb(var(--background-start-rgb));
 }
 .map-container{
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
   width: 40%;
-  height: 30vh
+  height: 50vh
 }
 .places-container{
-  position: absolute;
-  top : 15px;
-  left : 50%;
+  position : absolute;
+  width: 50%;
+  top : 15px  ;
+  right: 5px;
   transform : translateX(-50%);
   z-index: 10;
-  width: 300px;
+  background-color: white;
+  border-radius: 5px;
+
 }

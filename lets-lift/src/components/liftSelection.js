@@ -55,7 +55,7 @@ function LiftSelectorButton({ muscle, selected, setSelected }) {
           }
         }}
         className={
-          "cursor-pointer rounded-lg border-2 py-3 px-6 font-bold transition-colors duration-900 ease-in-out  " +
+          "cursor-pointer rounded-lg border-2 py-3 px-6 font-bold transition-colors duration-900 ease-in-out " +
           selectedClass
         }
       >

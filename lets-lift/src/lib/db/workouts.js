@@ -51,13 +51,11 @@ export async function getWorkoutById(lift_id) {
 
 const dynamoDBClient = new DynamoDBClient({ region: "us-east-1" }); //import from client.js
 
-export async function getWorkoutsByLoc(location, workout, currUser) {
+export async function getWorkoutsByLoc(location, workoutPlural, currUser) {
   const tableName = process.env.AWS_WORKOUT_TABLENAME;
-  const latVal = location.lat;
-  const longVal = location.lng;
   const todayTimestamp = Math.floor(new Date().getTime() / 1000); // Get current timestamp in seconds
+  console.log(location, workoutPlural, currUser)
 
-  console.log(workout);
   const locationScanParams = {
     TableName: tableName,
     FilterExpression: "#location = :location",
@@ -65,7 +63,7 @@ export async function getWorkoutsByLoc(location, workout, currUser) {
       "#location": "location",
     },
     ExpressionAttributeValues: {
-      ":location": { S: `${latVal.toString()},${longVal.toString()}` },
+      ":location": { S: location },
     },
   };
 
@@ -84,7 +82,7 @@ export async function getWorkoutsByLoc(location, workout, currUser) {
       const workouts = item.workouts.L.map((workout) => workout.S);
 
       // Check if all workouts in the 'workout' array are included in the list
-      const allWorkoutsMatch = workout.every((singleWorkout) =>
+      const allWorkoutsMatch = workoutPlural.every((singleWorkout) =>
         workouts.includes(singleWorkout)
       );
 
@@ -109,9 +107,9 @@ export async function getWorkoutsByLoc(location, workout, currUser) {
           ? a
           : b
       );
-      console.log(latestWorkout);
       return latestWorkout;
     });
+    return latestWorkouts;
   } catch (error) {
     console.error("Error scanning DynamoDB:", error);
   }
