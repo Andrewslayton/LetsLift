@@ -1,4 +1,9 @@
-import { PutItemCommand, GetItemCommand } from "@aws-sdk/client-dynamodb";
+import {
+  PutItemCommand,
+  GetItemCommand,
+  DynamoDBClient,
+  ScanCommand,
+} from "@aws-sdk/client-dynamodb";
 import { client } from "./client.js";
 
 export async function createNewWorkout(user_id, workouts, location) {
@@ -14,11 +19,8 @@ export async function createNewWorkout(user_id, workouts, location) {
           S: workout,
         })),
       },
-      lat : {
-        S: location.lat.toString(),
-      },
-      lng : {
-        S: location.lng.toString(),
+      location: {
+        S: `${location.lat.toString()},${location.lng.toString()}`,
       },
       timestamp: {
         S: Date.now().toString(),
@@ -47,3 +49,70 @@ export async function getWorkoutById(lift_id) {
   }
 }
 
+const dynamoDBClient = new DynamoDBClient({ region: "us-east-1" }); //import from client.js
+
+export async function getWorkoutsByLoc(location, workout, currUser) {
+  const tableName = process.env.AWS_WORKOUT_TABLENAME;
+  const latVal = location.lat;
+  const longVal = location.lng;
+  const todayTimestamp = Math.floor(new Date().getTime() / 1000); // Get current timestamp in seconds
+
+  console.log(workout);
+  const locationScanParams = {
+    TableName: tableName,
+    FilterExpression: "#location = :location",
+    ExpressionAttributeNames: {
+      "#location": "location",
+    },
+    ExpressionAttributeValues: {
+      ":location": { S: `${latVal.toString()},${longVal.toString()}` },
+    },
+  };
+
+  try {
+    const locationData = await dynamoDBClient.send(
+      new ScanCommand(locationScanParams)
+    );
+
+    const filteredItems = locationData.Items.filter((item) => {
+      return true;
+    });
+
+    const matchingItems = [];
+
+    for (const item of filteredItems) {
+      const workouts = item.workouts.L.map((workout) => workout.S);
+
+      // Check if all workouts in the 'workout' array are included in the list
+      const allWorkoutsMatch = workout.every((singleWorkout) =>
+        workouts.includes(singleWorkout)
+      );
+
+      if (allWorkoutsMatch) {
+        matchingItems.push(item);
+      }
+    }
+    const uniqueUsers = Array.from(
+      new Set(
+        matchingItems
+          .map((item) => item.user_id.S)
+          .filter((item) => item !== currUser)
+      )
+    );
+    const latestWorkouts = uniqueUsers.map((user) => {
+      const userWorkouts = matchingItems.filter(
+        (item) => item.user_id.S === user
+      );
+      const latestWorkout = userWorkouts.reduce((a, b) =>
+        new Date(parseInt(a.timestamp.S) * 1000) >
+        new Date(parseInt(b.timestamp.S) * 1000)
+          ? a
+          : b
+      );
+      console.log(latestWorkout);
+      return latestWorkout;
+    });
+  } catch (error) {
+    console.error("Error scanning DynamoDB:", error);
+  }
+}

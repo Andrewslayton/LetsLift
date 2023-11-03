@@ -4,30 +4,33 @@ import React from "react";
 import styles from "@/styles/liftSelection.module.css"; // Updated import path
 import { getServerSession } from "next-auth";
 import LiftSelection from "@/components/liftSelection";
-import { redirect } from "next/navigation";
 import Map from "@/components/locationSelection";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 
 export default function Page() {
   const {data:session,status} = useSession();
   const [selectedLifts, setSelectedLifts] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
+  const router = useRouter();
   // if (status !== "authenticated") {
   //   redirect("/");
   // }
 
-  function create() {
+ async function create() {
     if (!session || !session.user || !selectedLifts || !selectedLocation) {
       return;
     }
-    fetch("/api/workout", {
+    await fetch("/api/workout", {
       method: "POST",
       body: JSON.stringify({
         lifts: selectedLifts,
         location: selectedLocation,
       }),
     });
+    router.push("/findLifters");
   }
 
   return (

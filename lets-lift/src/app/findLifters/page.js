@@ -1,6 +1,9 @@
-import React from 'react';
+"use client"
+import React, { useState, useEffect } from 'react';
 
-
-export default function Page() {
-    <div> hello </div>
+function FindLiftersPage() {
+    
 }
+
+export default FindLiftersPage;
+
