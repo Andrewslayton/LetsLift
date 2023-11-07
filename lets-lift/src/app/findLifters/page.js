@@ -47,10 +47,16 @@ export default function Page() {
       }
     );
   }, []);
-  return (
-    <div>
+  return(
+       <div className="matches-container">
       {matches &&
-        matches.map((match, index) => <div key={index}>{match.name.S}</div>)}
+        matches.map((match, index) => (
+          <div key={index} className="match-container">
+            <div>{match.name.S}</div>
+            <button className= "button-matches" onClick={() => handleSendMessage(match.name.S)}>Message</button>
+          </div>
+        ))}
     </div>
   );
 }
+

@@ -43,3 +43,32 @@ body {
   border-radius: 5px;
 
 }
+/* styles.css */
+.matches-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.match-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  /* Center text within the container */
+}
+
+.match-container div {
+  margin-bottom: 10px;
+  /* Add space between the name and button */
+}
+
+.button-matches {
+  padding: 5px 10px;
+  background-color: black;
+  color: white;
+  /* Set text color to white */
+  border: none;
+  /* Remove border */
+}
