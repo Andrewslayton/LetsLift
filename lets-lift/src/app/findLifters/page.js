@@ -43,16 +43,14 @@ export default function Page() {
               return { ...workout, ...user };
             });
             setMatches(zipped);
-            
         });
       }
     );
   }, []);
   return (
-    // loop through matches and display profile pic and name
-    
-    <pre>
-      <code>{JSON.stringify(matches, null, 2)}</code>
-    </pre>
+    <div>
+      {matches &&
+        matches.map((match, index) => <div key={index}>{match.name.S}</div>)}
+    </div>
   );
 }

@@ -11,9 +11,8 @@ export async function GET(req) {
   }
   if (searchParams.has("user_ids")) {
     const user_ids = JSON.parse(
-      decodeURIComponent(searchParams.get("user_ids"))
+    decodeURIComponent(searchParams.get("user_ids"))
     );
-    console.log(user_ids);
     const users = await Promise.all(
       user_ids.map((user_id) => getUserById(user_id))
     );
