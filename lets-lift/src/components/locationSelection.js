@@ -19,7 +19,7 @@ export default function Map({selectLoc}) {
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <>
-      <div className="places-container">
+      <div className="places-container" >
         <PlacesAutoComplete setSelected={setSelected} />
       </div>
       <GoogleMap zoom={5} center={center} mapContainerClassName="map-container">
