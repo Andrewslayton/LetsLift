@@ -56,7 +56,7 @@ export default function Page() {
         </>
       ) : (
         <div className={styles.liftContainer}>
-          <h1>Select Your Muscles</h1>
+          <h1 className={styles.title}>Select Your Muscles</h1>
           <LiftSelection setSelected={setSelectedLifts} />
           <button
             className="bg-blue-300 enabled:hover:bg-blue-400 text-white font-bold py-2 px-4 rounded disabled:opacity-50 margin-top: 1px "
