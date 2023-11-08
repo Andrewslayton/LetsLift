@@ -14,24 +14,35 @@ export default function Map({selectLoc}) {
     libraries: ["places"],
   });
 
-  const [selected, setSelected] = useState({lat: 42, lng: -90});
+  const [selected, setSelected] = useState(null);
+  const [markerL, setMarkers] = useState([]);
   const router = useRouter();
   useEffect(() => { 
     if (typeof window !== "undefined" && navigator){
       navigator.geolocation.getCurrentPosition((position) => {
-        setSelected({lat: position.coords.latitude, lng: position.coords.longitude})
+        setMarkers({lat: position.coords.latitude, lng: position.coords.longitude})
       })
     }
   }, [])
+  selectLoc(selected);
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <>
-      <div className="places-container" >
-        <PlacesAutoComplete setSelected={setSelected} />
+      <div className="places-container">
+        <PlacesAutoComplete
+          selectLoc={setSelected}
+          setSelected={setSelected}
+        />
       </div>
-      <GoogleMap zoom={5} center={selected} mapContainerClassName="map-container">
-        {selected && (
-          <Marker position={selected} onClick={() => selectLoc(selected)} />
+      <GoogleMap
+        zoom={5}
+        center={selected ?? markerL}
+        mapContainerClassName="map-container"
+      >
+        {selectLoc && (
+          <>
+            <Marker position={selected} onClick={() => selectLoc(selected)} />
+          </>
         )}
       </GoogleMap>
     </>
@@ -55,7 +66,6 @@ const PlacesAutoComplete = ({ setSelected }) => {
   };
 
   return (
-    //change away from combobox to search bar basic
     <div>
       <input className="text-black width: 100%"
         type="text"
@@ -67,7 +77,7 @@ const PlacesAutoComplete = ({ setSelected }) => {
       {status === "OK" && (
         <ul>
           {data.map(({ place_id, description }) => (
-            <li key={place_id} onClick={() => handleSelect(description)}>
+            <li key={place_id} onClick={() => handleSelect(description) }>
               {description}
             </li>
           ))}
