@@ -1,7 +1,6 @@
 /* styles/liftSelection.module.css */
 .container {
     display: flex;
-    justify-content: center;
     align-items: center;
     height: 100vh;
     flex-direction: column;
@@ -43,4 +42,11 @@
 .selectedMuscles {
     font-size: 24px;
     margin-top: 20px;
+}
+.liftContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 async function findMatches(lifts, location) {
   const params = new URLSearchParams({ lifts, location });
@@ -24,7 +25,13 @@ export default function Page() {
   const [matches, setMatches] = useState(null);
   const searchParams = useSearchParams();
   const {data:session,status} = useSession();
-
+  const router = useRouter();
+  useEffect(() => {
+    if (status !== "authenticated") {
+      router.push("/");
+    }
+  }, [status]);
+  
   useEffect(() => {
     //doing something after component mounts
     if (

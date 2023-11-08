@@ -9,9 +9,6 @@ const SignInButton = () => {
   if (session && session.user) {
     return (
       <header className="flex gap-4 p-4 bg-black">
-        <Link href="/">
-          <h1 className="text-blue-300">Home</h1>
-        </Link>
         <div className="flex gap-4 ml-auto">
           <p className="text-blue-300">
             {session.user.name}
@@ -25,6 +22,12 @@ const SignInButton = () => {
   }
   return (
     <header className="flex gap-4 p-4 bg-black">
+      <Link href="/">
+        <h1 className="text-blue-300">Home</h1>
+      </Link>
+      <Link href="/aboutPage">
+        <h1 className="text-blue-300">about</h1>
+      </Link>
       <button onClick={() => signIn()} className="text-blue-300 ml-auto">
         Sign in
       </button>

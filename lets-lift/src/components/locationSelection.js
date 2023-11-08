@@ -17,7 +17,7 @@ export default function Map({selectLoc}) {
   const [selected, setSelected] = useState({lat: 42, lng: -90});
   const router = useRouter();
   useEffect(() => { 
-    if (navigator){
+    if (typeof window !== "undefined" && navigator){
       navigator.geolocation.getCurrentPosition((position) => {
         setSelected({lat: position.coords.latitude, lng: position.coords.longitude})
       })

@@ -12,10 +12,9 @@
 
 .map-container{
   display: flex;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 70%;
-  height: 90%
+  margin-top: 5px;
+  width: 100%;
+  height: 70%
 }
 .places-container{
   position : absolute;

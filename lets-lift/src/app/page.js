@@ -1,4 +1,5 @@
 // pages/index.js
+import React from "react";
 import { getServerSession } from "next-auth";
 import styles from "../styles/Home.module.css";
 import { redirect } from "next/navigation";

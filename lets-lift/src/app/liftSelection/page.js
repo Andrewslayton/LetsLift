@@ -1,6 +1,6 @@
 // pages/liftselect/page.js
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "@/styles/liftSelection.module.css"; // Updated import path
 import { getServerSession } from "next-auth";
 import LiftSelection from "@/components/liftSelection";
@@ -8,18 +8,23 @@ import Map from "@/components/locationSelection";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightLong } from "@fortawesome/free-solid-svg-icons";
 
 export default function Page() {
-  const {data:session,status} = useSession();
+  const [onMapSelect, setOnMapSelect] = useState(true);
+  const { data: session, status } = useSession();
   const [selectedLifts, setSelectedLifts] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const router = useRouter();
-  // if (status !== "authenticated") {
-  //   redirect("/");
-  // }
 
- async function create() {
+  useEffect(() => {
+    if (status !== "authenticated") {
+      router.push("/");
+    }
+  }, [status]);
+
+  async function create() {
     if (!session || !session.user || !selectedLifts || !selectedLocation) {
       return;
     }
@@ -36,19 +41,32 @@ export default function Page() {
     });
     router.push("/findLifters?" + params.toString());
   }
-
   return (
     <div className={styles.container}>
-      {/* as people select lifts its calling create function to change the state of the selected lifts */}
-      <Map selectLoc={setSelectedLocation} />
-      <LiftSelection setSelected={setSelectedLifts} />
-      <button
-        className="bg-blue-300 enabled:hover:bg-blue-400 text-white font-bold py-2 px-4 rounded disabled:opacity-50 margin-top: 1px "
-        onClick={() => create()}
-        disabled={!selectedLifts || !selectedLocation}
-      >
-        Find Lifters
-      </button>
+      {onMapSelect ? (
+        <>
+          <Map selectLoc={setSelectedLocation} />
+          <button
+            className="bg-blue-300 enabled:hover:bg-blue-400 text-white font-bold py-2 px-4 rounded disabled:opacity-50 margin-top: 1px "
+            onClick={() => setOnMapSelect(false)}
+            disabled={!selectedLocation}
+          >
+            Next <FontAwesomeIcon icon={faRightLong} />
+          </button>
+        </>
+      ) : (
+        <div className={styles.liftContainer}>
+          <h1>Select Your Muscles</h1>
+          <LiftSelection setSelected={setSelectedLifts} />
+          <button
+            className="bg-blue-300 enabled:hover:bg-blue-400 text-white font-bold py-2 px-4 rounded disabled:opacity-50 margin-top: 1px "
+            onClick={() => create()}
+            disabled={!selectedLifts}
+          >
+            Connect With Other Lifters
+          </button>
+        </div>
+      )}
     </div>
   );
 }
