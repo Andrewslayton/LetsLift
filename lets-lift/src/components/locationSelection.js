@@ -50,7 +50,7 @@ const PlacesAutoComplete = ({ setSelected }) => {
   return (
     //change away from combobox to search bar basic
     <div>
-      <input
+      <input className="text-black width: 100%"
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
