@@ -29,19 +29,17 @@ body {
   display: flex;
   margin-top: 10px;
   margin-bottom: 10px;
-  width: 40%;
-  height: 50vh
+  width: 70%;
+  height: 90%
 }
 .places-container{
   position : absolute;
   width: 50%;
   top : 15px  ;
-  right: 5px;
+  right: 1%;
   transform : translateX(-50%);
-  z-index: 10;
+  z-index: 1;
   background-color: white;
-  border-radius: 5px;
-
 }
 /* styles.css */
 .matches-container {
@@ -56,19 +54,15 @@ body {
   padding: 10px;
   margin: 10px;
   text-align: center;
-  /* Center text within the container */
 }
 
 .match-container div {
   margin-bottom: 10px;
-  /* Add space between the name and button */
 }
 
 .button-matches {
   padding: 5px 10px;
   background-color: black;
   color: white;
-  /* Set text color to white */
   border: none;
-  /* Remove border */
 }

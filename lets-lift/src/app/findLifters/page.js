@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 async function findMatches(lifts, location) {
   const params = new URLSearchParams({ lifts, location });
@@ -22,6 +23,8 @@ async function getUsers(user_ids) {
 export default function Page() {
   const [matches, setMatches] = useState(null);
   const searchParams = useSearchParams();
+  const {data:session,status} = useSession();
+
   useEffect(() => {
     //doing something after component mounts
     if (
@@ -47,13 +50,19 @@ export default function Page() {
       }
     );
   }, []);
-  return(
-       <div className="matches-container">
+  return (
+    <div className="matches-container">
       {matches &&
         matches.map((match, index) => (
           <div key={index} className="match-container">
             <div>{match.name.S}</div>
-            <button className= "button-matches" onClick={() => handleSendMessage(match.name.S)}>Message</button>
+            <div>{match.email.S}</div>
+            <a
+              className="button-matches"
+              href={`mailto:${match.email.S}?subject=${session.user.name} wants to be you workout partner&body=LETS LIFT TOGETHER`}
+            >
+              Send Email
+            </a>
           </div>
         ))}
     </div>

@@ -26,7 +26,7 @@ export default function LiftSelection({ setSelected: setSelectedFromProps }) {
   };
   return (
     <div>
-      <div className="flex flex-wrap gap-4 max-w-sm">
+      <div className="grid grid-cols-3 max-w-sm bg-gray-900 ">
         {muscles.map((muscle) => (
           <LiftSelectorButton
             key={muscle}
@@ -45,7 +45,6 @@ function LiftSelectorButton({ muscle, selected, setSelected }) {
     ? "bg-blue-300 text-gray-900 border-blue-300"
     : "bg-gray-900 text-blue-300 border-gray-900";
   return (
-    <div className="flex">
       <button
         onClick={() => {
           if (selected.includes(muscle)) {
@@ -55,12 +54,11 @@ function LiftSelectorButton({ muscle, selected, setSelected }) {
           }
         }}
         className={
-          "cursor-pointer rounded-lg border-2 py-3 px-6 font-bold transition-colors duration-900 ease-in-out " +
+          "cursor-pointer  border-2 py-3 px-6 font-bold transition-colors duration-900 ease-in-out " +
           selectedClass
         }
       >
         {muscle}
       </button>
-    </div>
   );
 }
