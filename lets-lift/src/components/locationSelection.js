@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useMemo } from "react"; // Import React and useState
+import React, { useState, useMemo, useEffect } from "react"; // Import React and useState
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import usePlacesAutoComplete, {
   getGeocode,
@@ -13,16 +13,23 @@ export default function Map({selectLoc}) {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
   });
-  const center = useMemo(() => ({ lat: 42, lng: -90 }), []);
-  const [selected, setSelected] = useState(null);
+
+  const [selected, setSelected] = useState({lat: 42, lng: -90});
   const router = useRouter();
+  useEffect(() => { 
+    if (navigator){
+      navigator.geolocation.getCurrentPosition((position) => {
+        setSelected({lat: position.coords.latitude, lng: position.coords.longitude})
+      })
+    }
+  }, [])
   if (!isLoaded) return <div>Loading...</div>;
   return (
     <>
       <div className="places-container" >
         <PlacesAutoComplete setSelected={setSelected} />
       </div>
-      <GoogleMap zoom={5} center={center} mapContainerClassName="map-container">
+      <GoogleMap zoom={5} center={selected} mapContainerClassName="map-container">
         {selected && (
           <Marker position={selected} onClick={() => selectLoc(selected)} />
         )}
