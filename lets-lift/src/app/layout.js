@@ -10,7 +10,7 @@ export const metadata = {
 export default function RootLayout({ Component, pageProps, Session ,children }) {
   return (
     <html lang="en">
-      <body>
+      <body className='text-black'>
       <Providers>
         <SignInButton/>
         {children}
