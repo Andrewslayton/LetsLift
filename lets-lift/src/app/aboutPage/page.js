@@ -50,7 +50,7 @@ const AboutMe = () => {
                 <br />
                 2. Select a location by typing in the "enter address" box and
                 selecting a location from the dropdown. A marker will appear at
-                the location selected. You must click on the marker.
+                the location selected. 
                 <br />
                 3. Select a lift(s) by clicking on the lift buttons.
                 <br />
