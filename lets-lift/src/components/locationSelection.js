@@ -39,9 +39,9 @@ export default function Map({selectLoc}) {
         center={selected ?? markerL}
         mapContainerClassName="map-container"
       >
-        {selectLoc && (
+        {markerL && (
           <>
-            <Marker position={selected} onClick={() => selectLoc(selected)} />
+            <Marker position={selected ?? markerL} onClick={() => selectLoc(selected)} />
           </>
         )}
       </GoogleMap>
