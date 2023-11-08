@@ -8,31 +8,46 @@ import usePlacesAutoComplete, {
 import { useRouter } from "next/navigation";
 
 //exposing setSelted to parent
-export default function Map({selectLoc}) {
+export default function Map({ selectLoc }) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
   });
-
-  const [selected, setSelected] = useState({lat: 42, lng: -90});
+  const [currLoc, setCurrLoc] = useState({ lat: 0, lng: 0 });
+  const [selected, setSelected] = useState(undefined);
   const router = useRouter();
-  useEffect(() => { 
-    if (typeof window !== "undefined" && navigator){
+  useEffect(() => {
+    if (typeof window !== "undefined" && navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        setSelected({lat: position.coords.latitude, lng: position.coords.longitude})
-      })
+        setCurrLoc({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      });
     }
-  }, [])
+  }, []);
+  useEffect(() => {
+    selectLoc(selected);
+  }, [selected]);
+
   if (!isLoaded) return <div>Loading...</div>;
+  console.log(selected);
+  console.log(currLoc);
+  console.log(selected ?? currLoc);
+  let mapLocation = selected ?? currLoc;
+  mapLocation = { lat: mapLocation.lat, lng: mapLocation.lng };
+  console.log(mapLocation.lat);
   return (
     <>
-      <div className="places-container" >
+      <div className="places-container">
         <PlacesAutoComplete setSelected={setSelected} />
       </div>
-      <GoogleMap zoom={5} center={selected} mapContainerClassName="map-container">
-        {selected && (
-          <Marker position={selected} onClick={() => selectLoc(selected)} />
-        )}
+      <GoogleMap
+        zoom={5}
+        center={mapLocation}
+        mapContainerClassName="map-container"
+      >
+        {selected && <Marker position={mapLocation} />}
       </GoogleMap>
     </>
   );
@@ -50,14 +65,15 @@ const PlacesAutoComplete = ({ setSelected }) => {
     setValue(address, false);
     clearSuggestions();
     const results = await getGeocode({ address });
-    const { lat, lng } = await getLatLng(results[0]);
+    const { lat, lng } = getLatLng(results[0]);
     setSelected({ lat, lng });
+    
   };
 
   return (
-    //change away from combobox to search bar basic
     <div>
-      <input className="text-black width: 100%"
+      <input
+        className="text-black width: 100%"
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
