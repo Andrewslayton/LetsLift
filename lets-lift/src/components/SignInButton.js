@@ -9,10 +9,11 @@ const SignInButton = () => {
   if (session && session.user) {
     return (
       <header className="flex gap-4 p-4 bg-black">
+        <Link href="/">
+          <h1 className="text-blue-300">Find a Partner!</h1>
+        </Link>
         <div className="flex gap-4 ml-auto">
-          <p className="text-blue-300">
-            {session.user.name}
-          </p>
+          <p className="text-blue-300">{session.user.name}</p>
           <button onClick={() => signOut()} className="text-red-600">
             Sign out
           </button>
