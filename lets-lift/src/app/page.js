@@ -3,6 +3,7 @@ import React from "react";
 import { getServerSession } from "next-auth";
 import styles from "../styles/Home.module.css";
 import { redirect } from "next/navigation";
+import { Background } from "@/components/animatedBackground";
 
 export const metadata = {
   title: "Lets Lift!",
@@ -17,6 +18,7 @@ export default async function Home() {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Lets Lift!</h1>
+      <Background />
       <a className={styles.button} href="/api/auth/signin">
         Sign in
       </a>

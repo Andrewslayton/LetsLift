@@ -1,6 +1,7 @@
 import './globals.css'
 import Providers from '../components/providers';
 import SignInButton from "../components/SignInButton";
+import { Background } from "@/components/animatedBackground";
 
 export const metadata = {
   title: 'Create Next App',
@@ -11,7 +12,7 @@ export default function RootLayout({ Component, pageProps, Session ,children }) 
   return (
     <html lang="en">
       <body className='text-white bg-black'>
-      <Providers>
+              <Providers>
         <SignInButton/>
         {children}
       </Providers>
