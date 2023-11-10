@@ -602,11 +602,6 @@ export const Background = ({ children }) => {
             },
             scale: 1,
             type: "inline",
-            url: "https://particles.js.org/images/google.svg",
-            position: {
-              x: 30,
-              y: 10,
-            },
           },
         }}
       />

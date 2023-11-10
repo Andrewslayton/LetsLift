@@ -6,9 +6,11 @@ import usePlacesAutoComplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import { useRouter } from "next/navigation";
+import { LoadingBackground, loadingBackground } from "./loadingBack";
+import { Background } from "./animatedBackground";
 
 //exposing setSelted to parent
-export default function Map({selectLoc}) {
+export default function Map({ selectLoc }) {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
@@ -17,22 +19,22 @@ export default function Map({selectLoc}) {
   const [selected, setSelected] = useState(null);
   const [markerL, setMarkers] = useState([]);
   const router = useRouter();
-  useEffect(() => { 
-    if (typeof window !== "undefined" && navigator){
+  useEffect(() => {
+    if (typeof window !== "undefined" && navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        setMarkers({lat: position.coords.latitude, lng: position.coords.longitude})
-      })
+        setMarkers({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      });
     }
-  }, [])
+  }, []);
   selectLoc(selected);
-  if (!isLoaded) return <div>Loading...</div>;
+  if (!isLoaded) return <div> Loading... <LoadingBackground/> </div>;
   return (
     <>
       <div className="places-container">
-        <PlacesAutoComplete
-          selectLoc={setSelected}
-          setSelected={setSelected}
-        />
+        <PlacesAutoComplete selectLoc={setSelected} setSelected={setSelected} />
       </div>
       <GoogleMap
         zoom={5}
@@ -41,7 +43,10 @@ export default function Map({selectLoc}) {
       >
         {markerL && (
           <>
-            <Marker position={selected ?? markerL} onClick={() => selectLoc(selected)} />
+            <Marker
+              position={selected ?? markerL}
+              onClick={() => selectLoc(selected)}
+            />
           </>
         )}
       </GoogleMap>
@@ -67,7 +72,8 @@ const PlacesAutoComplete = ({ setSelected }) => {
 
   return (
     <div>
-      <input className="text-black width: 100%"
+      <input
+        className="text-black width: 100%"
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
@@ -77,7 +83,7 @@ const PlacesAutoComplete = ({ setSelected }) => {
       {status === "OK" && (
         <ul>
           {data.map(({ place_id, description }) => (
-            <li key={place_id} onClick={() => handleSelect(description) }>
+            <li key={place_id} onClick={() => handleSelect(description)}>
               {description}
             </li>
           ))}
