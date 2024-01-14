@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import bottomMap  from "@/components/bottomMap";
 
 async function findMatches(lifts, location) {
   const params = new URLSearchParams({ lifts, location });

@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import styles from "../styles/Home.module.css";
 import { redirect } from "next/navigation";
 import { Background } from "@/components/animatedBackground";
+import BottomMap from "@/components/bottomMap";
 
 export const metadata = {
   title: "Lets Lift!",

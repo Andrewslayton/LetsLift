@@ -73,7 +73,7 @@ const PlacesAutoComplete = ({ setSelected }) => {
   return (
     <div>
       <input
-        className="text-black width: 100%"
+        className="text-black width: 100% text-4xl"
         type="text"
         value={value}
         onChange={(e) => setValue(e.target.value)}
