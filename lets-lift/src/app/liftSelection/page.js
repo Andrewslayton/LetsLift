@@ -11,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightLong } from "@fortawesome/free-solid-svg-icons";
 import BottomMap from "@/components/bottomMap";
+import { Background } from "@/components/selectBackground";
 
 export default function Page() {
   const [onMapSelect, setOnMapSelect] = useState(true);
@@ -49,28 +50,28 @@ export default function Page() {
           <>
             <Map selectLoc={setSelectedLocation} />
             <button
-              className="bg-blue-300 enabled:hover:bg-blue-400 text-black font-bold py-6 px-8 rounded disabled:opacity-50 margin-top: 1px mt-5 mb-3" 
+              className="bg-blue-300 enabled:hover:bg-blue-400 text-black font-bold py-6 px-8 rounded disabled:opacity-50 margin-top: 1px mt-5 mb-3"
               onClick={() => setOnMapSelect(false)}
               disabled={!selectedLocation}
             >
               Next <FontAwesomeIcon icon={faRightLong} />
             </button>
-            <bottomMap />
+            <BottomMap />
           </>
         ) : (
           <div className={styles.liftContainer}>
             <h1 className={styles.title}>Select Your Muscles</h1>
             <LiftSelection setSelected={setSelectedLifts} />
             <button
-              className="bg-blue-300 enabled:hover:bg-blue-400 text-white font-bold py-2 px-4 rounded disabled:opacity-50 margin-top: 1px "
+              className="bg-blue-300 enabled:hover:bg-blue-400 text-white font-bold py-4 px-12 rounded disabled:opacity-50 margin-top: 1px mt-6 mb-3"
               onClick={() => create()}
               disabled={!selectedLifts}
             >
               Connect With Other Lifters
             </button>
+            <Background />
           </div>
         )}
-        <BottomMap />
       </div>
     </div>
   );

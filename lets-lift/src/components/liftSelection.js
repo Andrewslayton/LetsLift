@@ -42,8 +42,8 @@ export default function LiftSelection({ setSelected: setSelectedFromProps }) {
 
 function LiftSelectorButton({ muscle, selected, setSelected }) {
   const selectedClass = selected.includes(muscle)
-    ? "bg-blue-300 text-gray-900 border-blue-300"
-    : "bg-gray-900 text-blue-300 border-gray-900";
+    ? "bg-blue-300 text-gray-900 border-blue-300 py-8 px-15 text-1xl"
+    : "bg-gray-900 text-blue-300 border-gray-900 py-5 px-15 text-1xl ";
   return (
       <button
         onClick={() => {

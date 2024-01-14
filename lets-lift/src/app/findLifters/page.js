@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import bottomMap  from "@/components/bottomMap";
+import { Background } from "@/components/selectBackground";
 
 async function findMatches(lifts, location) {
   const params = new URLSearchParams({ lifts, location });
@@ -59,6 +60,7 @@ export default function Page() {
     );
   }, []);
   return (
+    <div>
     <div className="matches-container">
       {matches &&
         matches.map((match, index) => (
@@ -73,6 +75,9 @@ export default function Page() {
             </a>
           </div>
         ))}
+    </div>
+    <Background />
+    <p className="text-3xl text-center mt-10">Send a message through email to connect </p>
     </div>
   );
 }
