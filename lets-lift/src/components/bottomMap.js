@@ -1,5 +1,3 @@
-import styles from '@/styles/bottomMap.module.css'
-
 
 export default function BottomMap() {
   return (
